@@ -3,7 +3,7 @@ services:
     name: casino-promo-site
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
     envVars:
       - key: PYTHON_PATH
         value: /usr/local/bin/python
