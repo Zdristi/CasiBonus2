@@ -210,12 +210,14 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            text-decoration: none;
         }
 
         .casino-card:hover {
             box-shadow: var(--card-shadow-hover);
             transform: translateY(-5px);
             border-color: var(--accent-primary);
+            text-decoration: none;
         }
 
         .casino-header {
@@ -344,15 +346,18 @@
             transition: all 0.2s ease;
             font-size: 0.875rem;
             font-weight: 500;
+            text-decoration: none;
         }
 
         .filter-btn:hover {
             background-color: #d1d5db;
+            text-decoration: none;
         }
 
         .filter-btn.active {
             background-color: #3b82f6;
             color: white;
+            text-decoration: none;
         }
 
         .dark .filter-btn {
@@ -388,15 +393,18 @@
             font-size: 1rem;
             font-weight: 600;
             box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+            text-decoration: none;
         }
 
         .platform-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+            text-decoration: none;
         }
 
         .platform-btn.active {
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+            text-decoration: none;
         }
 
         .search-container {
@@ -611,7 +619,7 @@
             display: inline-flex;
             align-items: center;
             color: #3b82f6;
-            text-decoration: none;
+            text-decoration: none !important;
             margin-bottom: 1.5rem;
             font-weight: 500;
             transition: color 0.2s ease;
@@ -623,6 +631,7 @@
 
         .back-link:hover {
             color: #2563eb;
+            text-decoration: none !important;
         }
 
         .no-results {
