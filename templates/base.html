@@ -143,6 +143,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            box-sizing: border-box;
         }
 
         .theme-toggle:hover {
@@ -152,6 +153,10 @@
 
         .dark .theme-toggle:hover {
             background-color: #374151;
+        }
+
+        .theme-toggle svg {
+            pointer-events: none;
         }
 
         h1 {
