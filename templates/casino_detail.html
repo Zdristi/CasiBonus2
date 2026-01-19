@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header>
+    <div class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" style="width: 1.25rem; height: 1.25rem;">
+            <!-- Иконка будет обновляться через JS -->
+        </svg>
+    </div>
+    <div class="header-content">
+        <a href="/" class="back-link">← Назад к списку</a>
+        <h1>{{ casino.name }}</h1>
+    </div>
+</header>
+
+<div class="casino-grid">
+    <div class="casino-card" style="cursor: default;">
+        <div class="casino-header">
+            <div class="casino-image">🎮</div>
+            <div class="casino-info">
+                <div class="casino-stats">
+                    <div class="casino-rating">★ {{ casino.rating }}</div>
+                    <div class="divider">|</div>
+                    <div>{{ casino.bonuses|length }} бонусов</div>
+                </div>
+                
+                {% if casino.categories %}
+                <div class="category-tags">
+                    {% for category in casino.categories %}
+                        <span class="category-tag">{{ category }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% if casino.platforms %}
+                <div class="platform-tags" style="margin-top: 0.5rem;">
+                    {% for platform in casino.platforms %}
+                        <span class="platform-tag">{{ platform }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <p class="casino-description" style="margin-top: 1rem;">{{ casino.description }}</p>
+    </div>
+</div>
+
+<div class="info-box">
+    <div class="info-section">
+        <h3 class="info-title">Лицензия</h3>
+        <p class="info-content">{{ casino.license }}</p>
+    </div>
+    
+    <div class="info-section">
+        <h3 class="info-title">Количество игр</h3>
+        <p class="info-content">{{ casino.gamesCount }} игр</p>
+    </div>
+    
+    <div class="info-section">
+        <h3 class="info-title">Время вывода средств</h3>
+        <p class="info-content">{{ casino.withdrawalTime }}</p>
+    </div>
+    
+    <div class="info-section">
+        <h3 class="info-title">Методы оплаты</h3>
+        <div class="payment-methods">
+            {% for method in casino.paymentMethods %}
+                <span class="payment-method">{{ method }}</span>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% if casino.bonuses %}
+<h2 class="info-title" style="margin-top: 2rem;">Доступные бонусы</h2>
+{% for bonus in casino.bonuses %}
+<div class="bonus-card">
+    <div class="bonus-header">
+        <div class="bonus-details">
+            <div class="bonus-meta">
+                <span class="bonus-type">{{ bonus.type.replace('_', ' ')|title }}</span>
+                <span class="bonus-expiration">Истекает: {{ bonus.expiration }}</span>
+            </div>
+            <div class="bonus-code">{{ bonus.code }}</div>
+            <p class="bonus-description">{{ bonus.description }}</p>
+            
+            {% if bonus.wageringRequirements or bonus.minimumDeposit %}
+            <div class="bonus-requirements">
+                {% if bonus.wageringRequirements %}
+                <span>Требования по отыгрышу: {{ bonus.wageringRequirements }}x</span>
+                {% endif %}
+                {% if bonus.minimumDeposit %}
+                <span>Минимальный депозит: {{ bonus.minimumDeposit }} руб</span>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        <button class="copy-btn" onclick="copyCode('{{ bonus.code }}')">Скопировать код</button>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<a href="{{ casino.website }}" target="_blank" class="cta-button">Перейти на сайт казино</a>
+
+<script>
+function copyCode(code) {
+    navigator.clipboard.writeText(code).then(function() {
+        alert('Код "' + code + '" скопирован в буфер обмена!');
+    }).catch(function(err) {
+        console.error('Ошибка при копировании: ', err);
+    });
+}
+</script>
+{% endblock %}

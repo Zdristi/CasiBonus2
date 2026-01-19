@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header>
+    <div class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" style="width: 1.25rem; height: 1.25rem;">
+            <!-- Иконка будет обновляться через JS -->
+        </svg>
+    </div>
+    <div class="header-content">
+        <h1>Онлайн Казино с Промокодами</h1>
+        <p class="subtitle">
+            Лучшие лицензированные онлайн казино с эксклюзивными бонусами и промокодами
+        </p>
+    </div>
+</header>
+
+<div class="search-container">
+    <form method="GET" action="/">
+        <div style="position: relative;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="search-icon h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+            </svg>
+            <input type="text" name="search" value="{{ search_query }}" placeholder="Поиск казино..." class="search-bar" oninput="this.form.submit()">
+        </div>
+    </form>
+</div>
+
+<div class="platform-navigation">
+    <a href="/?platform=CS2" class="platform-btn {{ 'active' if selected_platform == 'CS2' }}">CS2</a>
+    <a href="/?platform=Dota2" class="platform-btn {{ 'active' if selected_platform == 'Dota2' }}">Dota2</a>
+    <a href="/?platform=Rust" class="platform-btn {{ 'active' if selected_platform == 'Rust' }}">Rust</a>
+    <a href="/?platform=USD/RUB/Crypto" class="platform-btn {{ 'active' if selected_platform == 'USD/RUB/Crypto' }}">USD/RUB/Crypto</a>
+</div>
+
+{% if selected_platform %}
+<div class="category-filter">
+    <a href="/?platform={{ selected_platform }}&category=All" class="filter-btn {{ 'active' if not selected_category or selected_category == 'All' }}">Все</a>
+    {% for category in categories %}
+        <a href="/?platform={{ selected_platform }}&category={{ category }}" class="filter-btn {{ 'active' if selected_category == category }}">{{ category }}</a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="category-filter">
+    <a href="/?category=All" class="filter-btn {{ 'active' if not selected_category or selected_category == 'All' }}">Все</a>
+    {% for category in categories %}
+        <a href="/?category={{ category }}" class="filter-btn {{ 'active' if selected_category == category }}">{{ category }}</a>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if casinos|length > 0 %}
+    <div class="casino-grid">
+        {% for casino in casinos %}
+        <a href="/casino/{{ casino.id }}" class="casino-card">
+            <div class="casino-header">
+                <div class="casino-image">🎮</div>
+                <div class="casino-info">
+                    <h2 class="casino-name">{{ casino.name }}</h2>
+                    <p class="casino-description">{{ casino.description[:100] }}{% if casino.description|length > 100 %}...{% endif %}</p>
+                    <div class="casino-stats">
+                        <div class="casino-rating">★ {{ casino.rating }}</div>
+                        <div class="divider">|</div>
+                        <div>{{ casino.bonuses|length }} бонусов</div>
+                    </div>
+
+                    {% if casino.categories %}
+                    <div class="category-tags">
+                        {% for category in casino.categories[:3] %}
+                            <span class="category-tag">{{ category }}</span>
+                        {% endfor %}
+                        {% if casino.categories|length > 3 %}
+                            <span class="category-tag">+{{ casino.categories|length - 3 }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    {% if casino.platforms %}
+                    <div class="platform-tags">
+                        {% for platform in casino.platforms[:2] %}
+                            <span class="platform-tag">{{ platform }}</span>
+                        {% endfor %}
+                        {% if casino.platforms|length > 2 %}
+                            <span class="platform-tag">+{{ casino.platforms|length - 2 }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="no-results">
+        <p>
+            {% if search_query %}
+                К сожалению, не найдено казино по запросу "{{ search_query }}"
+            {% elif selected_platform and selected_category %}
+                К сожалению, не найдено казино с платформой "{{ selected_platform }}" и категорией "{{ selected_category }}"
+            {% elif selected_platform %}
+                К сожалению, не найдено казино с платформой "{{ selected_platform }}"
+            {% elif selected_category %}
+                К сожалению, не найдено казино с выбранной категорией "{{ selected_category }}"
+            {% else %}
+                К сожалению, не найдено казино
+            {% endif %}
+        </p>
+        <a href="/" class="reset-filter">Показать все казино</a>
+    </div>
+{% endif %}
+{% endblock %}
