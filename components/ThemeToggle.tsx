@@ -46,14 +46,14 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="p-3 mt-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800"
+      className="p-4 mt-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800"
       aria-label={`Переключить на ${theme === 'light' ? 'тёмную' : 'светлую'} тему`}
     >
       {theme === 'light' ? (
         // Иконка для светлой темы (луна)
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-8 w-8"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -63,7 +63,7 @@ const ThemeToggle = () => {
         // Иконка для тёмной темы (солнце)
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-8 w-8"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
